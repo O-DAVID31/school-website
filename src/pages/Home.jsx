@@ -1,7 +1,9 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { BookOpen, Users, Image, Newspaper, Phone } from 'lucide-react'
 import logo from '../assets/logo.png'
 import Countdown from '../components/Countdown'
+import NewsTicker from '../components/NewsTicker'
 
 const quickLinks = [
   { to: '/about', icon: BookOpen, label: 'About Us', desc: 'History, vision & mission' },
@@ -11,13 +13,30 @@ const quickLinks = [
   { to: '/contact', icon: Phone, label: 'Contact', desc: 'Get in touch' },
 ]
 
+const heroImages = ['/hero-bg.jpg', '/gallery/community-1.jpg', '/gallery/cultural-1.jpg', '/gallery/sports-1.jpg', '/gallery/students-1.jpg']
+
 function Home() {
+  const [bgIndex, setBgIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setBgIndex((i) => (i + 1) % heroImages.length)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [])
+
   return (
     <div>
-      <section
-        className="relative text-white text-center py-16 sm:py-20 md:py-24 px-6 bg-cover bg-center"
-        style={{ backgroundImage: "url('/hero-bg.jpg')" }}
-      >
+      <NewsTicker />
+
+      <section className="relative text-white text-center py-16 sm:py-20 md:py-24 px-6 overflow-hidden">
+        {heroImages.map((img, i) => (
+          <div
+            key={img}
+            className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000"
+            style={{ backgroundImage: `url('${img}')`, opacity: i === bgIndex ? 1 : 0 }}
+          />
+        ))}
         <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/55 to-primary/90"></div>
         <div className="relative z-10">
           <img src={logo} alt="Nkyerepoaso M/A JHS Crest" className="h-20 w-20 sm:h-24 sm:w-24 mx-auto mb-5" />
