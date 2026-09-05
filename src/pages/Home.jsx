@@ -17,6 +17,12 @@ const heroImages = ['/hero-bg.jpg', '/gallery/community-1.jpg', '/gallery/cultur
 
 function Home() {
   const [bgIndex, setBgIndex] = useState(0)
+  const [loadedCount, setLoadedCount] = useState(1)
+
+  useEffect(() => {
+    const preload = setTimeout(() => setLoadedCount(heroImages.length), 2000)
+    return () => clearTimeout(preload)
+  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -30,11 +36,13 @@ function Home() {
       <NewsTicker />
 
       <section className="relative text-white text-center py-16 sm:py-20 md:py-24 px-6 overflow-hidden">
-        {heroImages.map((img, i) => (
-          <div
+        {heroImages.slice(0, loadedCount).map((img, i) => (
+          <img
             key={img}
-            className="absolute inset-0 bg-cover bg-center transition-opacity duration-1000"
-            style={{ backgroundImage: `url('${img}')`, opacity: i === bgIndex ? 1 : 0 }}
+            src={img}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+            style={{ opacity: i === bgIndex ? 1 : 0 }}
           />
         ))}
         <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/55 to-primary/90"></div>
