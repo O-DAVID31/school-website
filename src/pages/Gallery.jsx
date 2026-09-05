@@ -56,7 +56,7 @@ const categories = [
 function PhotoCard({ src, alt, onClick }) {
   return (
     <button onClick={onClick} className="bg-white p-2 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 text-left">
-      <img src={src} alt={alt} className="w-full aspect-square object-cover rounded-lg" />
+      <img src={src} alt={alt} loading="lazy" className="w-full aspect-square object-cover rounded-lg" />
     </button>
   )
 }
