@@ -25,8 +25,10 @@ function Events() {
               </p>
             </div>
             <div className="bg-gray-50 p-5 rounded-lg border-l-4 border-primary">
-              <h3 className="font-semibold text-gray-800">Replace with another Basic Education or SHS news headline</h3>
-              <p className="text-gray-600 text-sm mt-1">Add a short summary of the news item here.</p>
+              <h3 className="font-semibold text-gray-800">School Launches Fundraising Drive for Renovation</h3>
+              <p className="text-gray-600 text-sm mt-1">
+                As part of the Maiden Speech & Prize Giving Day on 24th September, the school is launching a fundraising drive to renovate its facilities and provide modern educational resources for students.
+              </p>
             </div>
           </div>
         </section>
