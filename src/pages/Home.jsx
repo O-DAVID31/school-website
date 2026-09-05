@@ -13,7 +13,7 @@ const quickLinks = [
   { to: '/contact', icon: Phone, label: 'Contact', desc: 'Get in touch' },
 ]
 
-const heroImages = ['/hero-bg.jpg', '/gallery/community-1.jpg', '/gallery/cultural-1.jpg', '/gallery/sports-1.jpg', '/gallery/students-1.jpg']
+const heroImages = ['/hero-main.jpg', '/hero-community.jpg', '/hero-cultural.jpg', '/hero-sports.jpg', '/hero-students.jpg']
 
 function Home() {
   const [bgIndex, setBgIndex] = useState(0)
@@ -41,6 +41,7 @@ function Home() {
             key={img}
             src={img}
             alt=""
+            fetchPriority={i === 0 ? 'high' : 'low'}
             className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
             style={{ opacity: i === bgIndex ? 1 : 0 }}
           />
