@@ -46,7 +46,7 @@ function Home() {
             style={{ opacity: i === bgIndex ? 1 : 0 }}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/55 to-primary/90"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/75 via-primary/35 to-primary/75"></div>
         <div className="relative z-10">
           <img src={logo} alt="Nkyerepoaso M/A JHS Crest" className="h-20 w-20 sm:h-24 sm:w-24 mx-auto mb-5" />
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3">NKYEREPOASO M/A JHS</h1>
