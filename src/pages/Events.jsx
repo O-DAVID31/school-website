@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { GraduationCap, Newspaper, BookOpen, Globe } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { GraduationCap, Newspaper, BookOpen, Globe, X, ChevronLeft, ChevronRight, AlertTriangle } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import Countdown from '../components/Countdown'
 import EventQRCode from '../components/EventQRCode'
@@ -12,8 +12,91 @@ const educationLinks = [
   { name: 'WAEC Ghana', url: 'https://waecgh.org', desc: 'Official exams body — results and guidelines', icon: Globe },
 ]
 
+const facilityIssues = [
+  {
+    type: 'photo',
+    src: 'renovation-1.jpg',
+    title: 'Storage Room Floor',
+    caption: 'The floor in our storage room is damp and badly cracked, already damaging books and materials kept there — we plan to re-cast and waterproof it so records and supplies stay dry and protected.',
+  },
+  {
+    type: 'photo',
+    src: 'renovation-2.jpg',
+    title: 'Classroom Floor',
+    caption: 'This classroom floor has the same cracking and dampness, which isn\'t safe or comfortable for pupils to sit and move around on. Fixing it is part of the floor renovation the fundraising drive will fund.',
+  },
+  {
+    type: 'photo',
+    src: 'renovation-3.jpg',
+    title: 'Window Shutters',
+    caption: 'These wooden shutters no longer close properly, so rain, dust, and insects get into the classroom — we intend to replace them with proper, weatherproof windows.',
+  },
+  {
+    type: 'photo',
+    src: 'renovation-4.jpg',
+    title: 'Unfinished Floor',
+    caption: 'Several classrooms still have bare, sandy floors that kick up dust throughout the school day. Finishing and sealing these floors is one of our top priorities so pupils aren\'t breathing in dust during lessons.',
+  },
+  {
+    type: 'photo',
+    src: 'renovation-5.jpg',
+    title: 'Dust in the Classroom',
+    caption: 'The same issue from another angle: loose sand and dust cover the floor where pupils sit for hours each day, and it will be addressed by the same floor-finishing work.',
+  },
+  {
+    type: 'photo',
+    src: 'renovation-6.jpg',
+    title: 'Worn Chalkboard',
+    caption: 'The chalkboard surface has faded badly and the wall around it is cracked, making lessons harder to write and read clearly — we plan to install a new, properly mounted chalkboard.',
+  },
+  {
+    type: 'video',
+    src: 'renovation-video-1.mp4',
+    title: 'Classroom Walkthrough',
+    caption: 'A short walkthrough showing the dusty, unfinished floor pupils learn on every day, which we intend to fix as part of the flooring work above.',
+  },
+  {
+    type: 'video',
+    src: 'renovation-video-2.mp4',
+    title: 'Windows Up Close',
+    caption: 'A closer look at classroom windows that no longer close or seal properly — replacing these is part of the renovation plan.',
+  },
+  {
+    type: 'video',
+    src: 'renovation-video-3.mp4',
+    title: 'Chalkboard Condition',
+    caption: 'Footage showing just how worn the chalkboard surface has become, which a new chalkboard would resolve.',
+  },
+  {
+    type: 'video',
+    src: 'renovation-video-4.mp4',
+    title: 'General Classroom Condition',
+    caption: 'Additional footage of the classrooms and furniture currently in need of repair, all part of the broader renovation the fundraising drive supports.',
+  },
+]
+
 function Events() {
   const [status, setStatus] = useState('idle')
+  const [activeIndex, setActiveIndex] = useState(null)
+
+  useEffect(() => {
+    function handleKey(e) {
+      if (activeIndex === null) return
+      if (e.key === 'Escape') setActiveIndex(null)
+      if (e.key === 'ArrowRight') showNext()
+      if (e.key === 'ArrowLeft') showPrev()
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [activeIndex])
+
+  function showNext() {
+    setActiveIndex((i) => (i === null ? i : (i + 1) % facilityIssues.length))
+  }
+
+  function showPrev() {
+    setActiveIndex((i) => (i === null ? i : (i - 1 + facilityIssues.length) % facilityIssues.length))
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -36,6 +119,8 @@ function Events() {
       setStatus('error')
     }
   }
+
+  const activeItem = activeIndex !== null ? facilityIssues[activeIndex] : null
 
   return (
     <div>
@@ -120,6 +205,53 @@ function Events() {
           </div>
         </section>
 
+        <section className="mb-14">
+          <h2 className="text-2xl font-bold text-primary mb-2">Why We Need Your Support</h2>
+          <p className="text-gray-600 text-sm mb-6 max-w-2xl">
+            Each item below shows a specific problem in our classrooms right now. Tap any photo or video to view it larger.
+          </p>
+
+          <div className="bg-cream rounded-lg p-6 md:p-8 mb-8">
+            <div className="grid sm:grid-cols-2 gap-6">
+              {facilityIssues.map((item, index) => (
+                <button
+                  key={item.src}
+                  onClick={() => setActiveIndex(index)}
+                  className="text-left bg-white border border-gray-200 border-t-4 border-t-secondary rounded-xl shadow-sm overflow-hidden hover:shadow-lg hover:border-secondary transition"
+                >
+                  <div className="relative">
+                    {item.type === 'photo' ? (
+                      <img src={`/renovation/${item.src}`} alt={item.title} className="w-full h-48 object-cover" />
+                    ) : (
+                      <video src={`/renovation/${item.src}`} muted className="w-full h-48 object-cover bg-black pointer-events-none" />
+                    )}
+                    <div className="absolute top-3 left-3 w-9 h-9 rounded-full bg-primary/90 flex items-center justify-center">
+                      <AlertTriangle className="text-white" size={16} />
+                    </div>
+                    {item.type === 'video' && (
+                      <span className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded">Video</span>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <h4 className="font-semibold text-primary mb-1">{item.title}</h4>
+                    <p className="text-sm text-gray-600">{item.caption}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-primary text-white rounded-lg p-8">
+            <h3 className="font-bold text-xl mb-3">A Humble Appeal to Government, NGOs, Corporate Partners, and Individuals</h3>
+            <p className="leading-relaxed text-gray-100">
+              Nkyerepoaso M/A JHS opened its doors in 1968, and for 58 years it has kept teaching children from this community with very little outside help. The problems shown above aren't new — the floors have been cracking and gathering dust for years, some windows barely close anymore, and the chalkboard is now so worn that writing on it is a struggle. None of that has stopped our pupils from working hard, and our recent BECE results are proof of it.
+            </p>
+            <p className="leading-relaxed text-gray-100 mt-4">
+              We simply don't have the means to fix these problems on our own, and it isn't easy for us to ask. But we're asking anyway, because our pupils deserve better than this. If you work in government, we would be truly grateful for any support the District Assembly or Ministry of Education could offer. If you represent an NGO, we would welcome you adopting even one of the projects above. If your company is looking for a meaningful way to give back, we would be honoured to work with you. And if you're simply someone who cares, please know that whatever you're able to give — no matter how small — would mean the world to us and to the children who call this school home.
+            </p>
+          </div>
+        </section>
+
         <section id="rsvp" className="mb-14 scroll-mt-24">
           <h2 className="text-2xl font-bold text-primary mb-2">RSVP & Support the Event</h2>
           <p className="text-gray-600 text-sm mb-6">
@@ -194,6 +326,33 @@ function Events() {
           </div>
         </section>
       </div>
+
+      {activeItem && (
+        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center px-4" onClick={() => setActiveIndex(null)}>
+          <button className="absolute top-4 right-4 p-3 text-white hover:text-secondary bg-black/30 rounded-full" onClick={() => setActiveIndex(null)} aria-label="Close">
+            <X size={28} />
+          </button>
+
+          <button className="absolute left-2 md:left-6 p-3 text-white hover:text-secondary bg-black/30 rounded-full" onClick={(e) => { e.stopPropagation(); showPrev() }} aria-label="Previous">
+            <ChevronLeft size={32} />
+          </button>
+
+          <div onClick={(e) => e.stopPropagation()} className="max-w-2xl max-h-[85vh] text-center">
+            {activeItem.type === 'photo' ? (
+              <img src={`/renovation/${activeItem.src}`} alt={activeItem.title} className="max-h-[65vh] mx-auto rounded-lg object-contain" />
+            ) : (
+              <video src={`/renovation/${activeItem.src}`} controls autoPlay muted className="max-h-[65vh] mx-auto rounded-lg bg-black" />
+            )}
+            <h4 className="text-white font-semibold mt-4">{activeItem.title}</h4>
+            <p className="text-gray-300 text-sm mt-1 max-w-lg mx-auto">{activeItem.caption}</p>
+            <p className="text-gray-400 text-xs mt-2">{activeIndex + 1} of {facilityIssues.length}</p>
+          </div>
+
+          <button className="absolute right-2 md:right-6 p-3 text-white hover:text-secondary bg-black/30 rounded-full" onClick={(e) => { e.stopPropagation(); showNext() }} aria-label="Next">
+            <ChevronRight size={32} />
+          </button>
+        </div>
+      )}
     </div>
   )
 }
