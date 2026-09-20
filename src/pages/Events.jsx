@@ -104,7 +104,7 @@ function Events() {
     const form = e.target
     const data = new FormData(form)
     try {
-      const res = await fetch('https://formspree.io/f/YOUR_RSVP_FORM_ID', {
+      const res = await fetch('https://formspree.io/f/meaoqblr', {
         method: 'POST',
         body: data,
         headers: { Accept: 'application/json' },
@@ -295,7 +295,7 @@ function Events() {
               )}
 
               <div className="mt-4">
-                <MomoSupportButton number="0247869806" recipientName="Headteacher, Mrs. Eunice Dankwah" />
+                <MomoSupportButton number="0537265183" recipientName="Headteacher, Mrs. Eunice Dankwah" />
               </div>
             </div>
 
