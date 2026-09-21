@@ -37,7 +37,7 @@ const categories = [
     title: 'Community Engagement',
     icon: HeartHandshake,
     desc: "Nkyerepoaso M/A JHS does not stand alone; it is deeply woven into the fabric of its surrounding community. This section documents the school's ongoing partnership with the chief and elders of the town, alongside well-wishers whose continued generosity and support have been instrumental to the school's growth since its founding in 1968.",
-    images: ['community-1.jpg', 'community-2.jpg', 'community-3.jpg', 'community-4.jpg'],
+    images: ['community-5.jpg','community-1.jpg', 'community-2.jpg', 'community-3.jpg', 'community-4.jpg'],
   },
   {
     title: 'The School Building',
@@ -124,12 +124,12 @@ function Gallery() {
 
       {active && (
         <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center px-4" onClick={() => setActive(null)}>
-          <button className="absolute top-5 right-5 text-white hover:text-secondary" onClick={() => setActive(null)} aria-label="Close">
-            <X size={32} />
+          <button className="absolute top-4 right-4 p-3 text-white hover:text-secondary bg-black/30 rounded-full" onClick={() => setActive(null)} aria-label="Close">
+            <X size={28} />
           </button>
 
-          <button className="absolute left-3 md:left-8 text-white hover:text-secondary" onClick={(e) => { e.stopPropagation(); showPrev() }} aria-label="Previous photo">
-            <ChevronLeft size={40} />
+          <button className="absolute left-2 md:left-6 p-3 text-white hover:text-secondary bg-black/30 rounded-full" onClick={(e) => { e.stopPropagation(); showPrev() }} aria-label="Previous photo">
+            <ChevronLeft size={32} />
           </button>
 
           <div onClick={(e) => e.stopPropagation()} className="max-w-3xl max-h-[80vh] text-center">
@@ -139,8 +139,8 @@ function Gallery() {
             </p>
           </div>
 
-          <button className="absolute right-3 md:right-8 text-white hover:text-secondary" onClick={(e) => { e.stopPropagation(); showNext() }} aria-label="Next photo">
-            <ChevronRight size={40} />
+          <button className="absolute right-2 md:right-6 p-3 text-white hover:text-secondary bg-black/30 rounded-full" onClick={(e) => { e.stopPropagation(); showNext() }} aria-label="Next photo">
+            <ChevronRight size={32} />
           </button>
         </div>
       )}
